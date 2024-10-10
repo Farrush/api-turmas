@@ -28,9 +28,9 @@ endpoints.get("/turma/:id", autenticar, async (req, res)=> {
 })
 endpoints.get('/turma/busca', autenticar, async (req, res) => {
     try{
-        if(!req.query.ano){
+        if(!req.query.ano)
             throw new Error("Ano de busca não informado")
-        }
+
         const ano = req.query.ano
         const [turmas] = await selectTurmasFromAno(ano)
         res.send(turmas)

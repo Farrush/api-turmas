@@ -12,3 +12,13 @@ export async function login(credenciais) {
     const [registros] = await con.query(comando, [credenciais.email, credenciais.senha])
     return registros[0];
 }
+
+export async function signin(credenciais) {
+    const comando = `
+        insert into tb_login
+        (ds_email, ds_senha)
+        values
+        (?, ?)
+    `
+    return await con.query(comando, [credenciais.email, credenciais.senha])
+}
