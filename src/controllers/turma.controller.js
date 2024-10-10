@@ -3,10 +3,11 @@ import { selectTurmas, selectTurmasById, insertTurma, deleteTurma, updateTurma, 
 import validarTurma from "../validators/turma/validarTurma.js";
 import validarNum from '../validators/turma/validarNumeros.js'
 import validarCurso from "../validators/turma/validarCurso.js";
+import { autenticar } from "../utils/jwt.js";
 import { Router } from "express";
 const endpoints = Router()
 
-endpoints.get("/turma", async (req, res)=> {
+endpoints.get("/turma", autenticar, async (req, res)=> {
     try{
         const [turmas] = await selectTurmas()
         res.send(turmas)
@@ -15,7 +16,7 @@ endpoints.get("/turma", async (req, res)=> {
     }
 
 })
-endpoints.get("/turma/:id", async (req, res)=> {
+endpoints.get("/turma/:id", autenticar, async (req, res)=> {
     try{
         let id = req.params.id
         const [turma] = await selectTurmasById(id)
@@ -25,7 +26,7 @@ endpoints.get("/turma/:id", async (req, res)=> {
     }
 
 })
-endpoints.get('/turma/busca', async (req, res) => {
+endpoints.get('/turma/busca', autenticar, async (req, res) => {
     try{
         if(!req.query.ano){
             throw new Error("Ano de busca não informado")
@@ -37,7 +38,7 @@ endpoints.get('/turma/busca', async (req, res) => {
         res.status(400).send({erro: err.message})
     }
 })
-endpoints.get('/turma/:ano', async (req, res) => {
+endpoints.get('/turma/:ano', autenticar, async (req, res) => {
     try{
         validarNum(req.params.ano)
         validarCurso(req.query.curso)
@@ -49,7 +50,7 @@ endpoints.get('/turma/:ano', async (req, res) => {
         res.status(400).send({erro: err.message})
     }
 })
-endpoints.post('/turma', async (req, res)=>{
+endpoints.post('/turma', autenticar, async (req, res)=>{
     try{
         validarTurma(req.body)
         const novaTurma = req.body
@@ -60,7 +61,7 @@ endpoints.post('/turma', async (req, res)=>{
         res.status(400).send({erro: err.message})
     }
 })
-endpoints.put('/turma/:id', async (req, res) => {
+endpoints.put('/turma/:id', autenticar, async (req, res) => {
     try{
         validarTurma(req.body)
         validarNum(req.params.id)
@@ -73,7 +74,7 @@ endpoints.put('/turma/:id', async (req, res) => {
     }
 
 })
-endpoints.delete('/turma/:id', async (req, res) => {
+endpoints.delete('/turma/:id', autenticar, async (req, res) => {
     try{
         validarNum(req.params.id)
         const id = req.params.id

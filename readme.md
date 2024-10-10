@@ -17,6 +17,7 @@ create database facul_db;
 
 use facul_db;
 
+
 create table tb_turma(
 
 id_turma int auto_increment primary key,
@@ -32,6 +33,18 @@ qtd_capacidade int not null,
 bt_ativo boolean not null,
 
 dt_inclusao datetime not null);
+
+create table tb_login(
+
+	id_login int primary key auto_increment,
+
+    ds_email varchar(100) not null unique,
+
+    ds_senha varchar(100) not null
+
+);
+
+insert into tb_login (ds_email, ds_senha) values ("teste@gmail.com", "1234");
 
 insert into tb_turma (nm_turma, ds_curso, nr_ano_letivo,
 
