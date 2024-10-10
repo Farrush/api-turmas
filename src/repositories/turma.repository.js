@@ -4,6 +4,10 @@ export async function selectTurmas(){
     return await con.query("select id_turma id, nm_turma nome, ds_curso descricao, nr_ano_letivo anoLetivo, qtd_capacidade capacidade, bt_ativo ativo, dt_inclusao dataCriacao from tb_turma")
 }
 
+export async function selectTurmasById(id){
+    return await con.query("select id_turma id, nm_turma nome, ds_curso descricao, nr_ano_letivo anoLetivo, qtd_capacidade capacidade, bt_ativo ativo, dt_inclusao dataCriacao from tb_turma where id_turma = ?", [id])
+}
+
 export async function insertTurma(turma){
     return await con.query("insert into tb_turma (nm_turma, ds_curso, nr_ano_letivo, qtd_capacidade, bt_ativo, dt_inclusao) values" +
     "(?, ?, ?, ?, ?, ?)", [turma.nome, turma.descricao, turma.anoLetivo, turma.capacidade, turma.ativo, turma.dataCriacao])

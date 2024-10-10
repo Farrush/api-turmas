@@ -1,5 +1,5 @@
 
-import { selectTurmas, insertTurma, deleteTurma, updateTurma, selectTurmasFromAnoByCurso, selectTurmasFromAno } from "../repositories/turma.repository.js";
+import { selectTurmas, selectTurmasById, insertTurma, deleteTurma, updateTurma, selectTurmasFromAnoByCurso, selectTurmasFromAno } from "../repositories/turma.repository.js";
 import validarTurma from "../validators/turma/validarTurma.js";
 import validarNum from '../validators/turma/validarNumeros.js'
 import validarCurso from "../validators/turma/validarCurso.js";
@@ -10,6 +10,16 @@ endpoints.get("/turma", async (req, res)=> {
     try{
         const [turmas] = await selectTurmas()
         res.send(turmas)
+    }catch(err){
+        res.status(400).send({erro: err.message})
+    }
+
+})
+endpoints.get("/turma/:id", async (req, res)=> {
+    try{
+        let id = req.params.id
+        const [turma] = await selectTurmasById(id)
+        res.send(turma)
     }catch(err){
         res.status(400).send({erro: err.message})
     }
